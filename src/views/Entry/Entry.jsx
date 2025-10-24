@@ -158,7 +158,7 @@ export const Entry = () => {
           </section>
 
           {/* Actividades seleccionadas */}
-          {Object.entries(selectedActivities).some(([_, v]) => v) && (
+          {Object.entries(selectedActivities).some(([, v]) => v) && (
             <div className="space-y-1">
               {Object.entries(selectedActivities).map(([activity, isSelected]) => 
                 isSelected && (
