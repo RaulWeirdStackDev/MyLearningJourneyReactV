@@ -8,7 +8,7 @@ export const Header = () => {
           <img src="/logoMLJ.jpeg" alt="Logo" className="h-32 w-auto" />
         </div>
         
-        <h1 className="text-2xl font-bold text-gray-800 absolute left-1/2 transform -translate-x-1/2">
+        <h1 className="text-2xl font-bold text-gray-800 ">
           My Learning Journey
         </h1>
         
