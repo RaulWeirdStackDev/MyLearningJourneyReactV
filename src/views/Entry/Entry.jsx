@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Calendar } from 'lucide-react'; // Importar el ícono
 import {
   Chart as ChartJS,
   ArcElement,
@@ -123,7 +124,7 @@ export const Entry = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Sidebar con gráfico */}
@@ -142,16 +143,18 @@ export const Entry = () => {
             <label htmlFor="entryDate" className="block font-bold text-gray-700">
               Date
             </label>
-            <DatePicker
-              id="entryDate"
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              dateFormat="MMMM d, yyyy"
-              className="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              wrapperClassName="w-full"
-            />
+            <div className="relative">
+              <DatePicker
+                id="entryDate"
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+                dateFormat="MMMM d, yyyy"
+                className="w-full border border-gray-300 rounded-md p-3 pl-12 focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer hover:border-blue-400 transition-colors"
+                wrapperClassName="w-full"
+              />
+              <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+            </div>
           </section>
-
           {/* Checkboxes de actividades */}
           <section>
             <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
