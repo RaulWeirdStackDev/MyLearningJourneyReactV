@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -11,6 +13,8 @@ import {
 ChartJS.register(ArcElement, Tooltip, Legend, PieController);
 
 export const Entry = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  
   const [selectedActivities, setSelectedActivities] = useState({
     Listening: false,
     Reading: false,
@@ -42,7 +46,7 @@ export const Entry = () => {
           labels: ['Listening', 'Reading', 'Speaking', 'Writing', 'Grammar'],
           datasets: [{
             label: 'Activities Completed',
-            data: [0, 0, 0, 0, 0], // Datos iniciales
+            data: [0, 0, 0, 0, 0],
             backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff'],
             hoverOffset: 4
           }]
@@ -51,8 +55,8 @@ export const Entry = () => {
           responsive: true,
           maintainAspectRatio: true,
           animation: {
-            duration: 800, // Duración de la animación en ms para mayor fluidez
-            easing: 'easeInOutQuart' // Easing más suave para transiciones fluidas
+            duration: 800,
+            easing: 'easeInOutQuart'
           },
           plugins: {
             legend: {
@@ -70,13 +74,12 @@ export const Entry = () => {
       });
     }
 
-    // Cleanup al desmontar
     return () => {
       if (chartInstanceRef.current) {
         chartInstanceRef.current.destroy();
       }
     };
-  }, []); // Dependencia vacía: se ejecuta solo al montar
+  }, []);
 
   // Efecto para actualizar los datos del gráfico cuando cambian las actividades seleccionadas
   useEffect(() => {
@@ -89,9 +92,8 @@ export const Entry = () => {
         selectedActivities.Grammar ? 1 : 0
       ];
 
-      // Actualizar los datos sin recrear el gráfico
       chartInstanceRef.current.data.datasets[0].data = newData;
-      chartInstanceRef.current.update(); // Esto activa la animación suave
+      chartInstanceRef.current.update();
     }
   }, [selectedActivities]);
 
@@ -111,6 +113,7 @@ export const Entry = () => {
 
   const handleSubmit = () => {
     const entry = {
+      date: selectedDate.toISOString(),
       activities: Object.keys(selectedActivities).filter(key => selectedActivities[key]),
       ...formData,
       timestamp: new Date().toISOString()
@@ -134,6 +137,21 @@ export const Entry = () => {
         {/* Formulario principal */}
         <main className="lg:col-span-2 bg-white rounded-lg shadow-md p-6 space-y-6">
           
+          {/* Date Picker */}
+          <section className="space-y-2">
+            <label htmlFor="entryDate" className="block font-bold text-gray-700">
+              Date
+            </label>
+            <DatePicker
+              id="entryDate"
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              dateFormat="MMMM d, yyyy"
+              className="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              wrapperClassName="w-full"
+            />
+          </section>
+
           {/* Checkboxes de actividades */}
           <section>
             <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
