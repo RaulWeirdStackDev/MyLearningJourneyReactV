@@ -58,9 +58,15 @@ export const Navbar = () => {
             Statistics
           </NavLink>
         </li>
-        <li>
-          <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">FAQs</a>
-        </li>
+          <NavLink 
+            to="/faqs" 
+            onClick={closeMenu}
+            className={({ isActive }) => 
+              `transition-colors ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700 hover:text-blue-600'}`
+            }
+          >
+            FAQs
+          </NavLink>
         <li>
           <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">Profile</a>
         </li>
