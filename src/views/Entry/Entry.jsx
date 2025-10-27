@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Calendar } from 'lucide-react'; // Importar el ícono
+import { Calendar } from 'lucide-react';
+import toast, { Toaster } from 'react-hot-toast';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -113,18 +114,111 @@ export const Entry = () => {
   };
 
   const handleSubmit = () => {
+    // Validación: Al menos una actividad seleccionada
+    const hasActivities = Object.values(selectedActivities).some(v => v);
+    if (!hasActivities) {
+      toast.error('Please select at least one activity!', {
+        duration: 3000,
+        position: 'top-center',
+      });
+      return;
+    }
+
+    // Validación: Descripción de actividad
+    if (!formData.activityDescription.trim()) {
+      toast.error('Please describe what you did!', {
+        duration: 3000,
+        position: 'top-center',
+      });
+      return;
+    }
+
+    // Validación: Emoción seleccionada
+    if (formData.emotion === 'choose') {
+      toast.error('Please select how you felt!', {
+        duration: 3000,
+        position: 'top-center',
+      });
+      return;
+    }
+
+    // Validación: Experiencia emocional
+    if (!formData.emotionalExperience.trim()) {
+      toast.error('Please describe your emotional experience!', {
+        duration: 3000,
+        position: 'top-center',
+      });
+      return;
+    }
+
+    // Validación: Dificultad seleccionada
+    if (formData.difficulty === 'choose') {
+      toast.error('Please select the difficulty level!', {
+        duration: 3000,
+        position: 'top-center',
+      });
+      return;
+    }
+
+    // Validación: Desafíos
+    if (!formData.challenges.trim()) {
+      toast.error('Please describe the challenges you faced!', {
+        duration: 3000,
+        position: 'top-center',
+      });
+      return;
+    }
+
+    // Validación: Reflexiones futuras
+    if (!formData.differences.trim()) {
+      toast.error('Please share what you would do differently!', {
+        duration: 3000,
+        position: 'top-center',
+      });
+      return;
+    }
+
+    // Si todas las validaciones pasan
     const entry = {
       date: selectedDate.toISOString(),
       activities: Object.keys(selectedActivities).filter(key => selectedActivities[key]),
       ...formData,
       timestamp: new Date().toISOString()
     };
+    
     console.log('Journal Entry:', entry);
-    alert('Entry submitted! Check console for details.');
+    
+    // Toast de éxito
+    toast.success('Entry submitted successfully!', {
+      duration: 4000,
+      position: 'top-center',
+      icon: '🎉',
+    });
+
+    // Resetear el formulario después de 1 segundo
+    setTimeout(() => {
+      setSelectedActivities({
+        Listening: false,
+        Reading: false,
+        Speaking: false,
+        Writing: false,
+        Grammar: false
+      });
+      setFormData({
+        activityDescription: '',
+        emotion: 'choose',
+        emotionalExperience: '',
+        difficulty: 'choose',
+        challenges: '',
+        differences: ''
+      });
+      setSelectedDate(new Date());
+    }, 1000);
   };
 
   return (
-     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <Toaster />
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Sidebar con gráfico */}
@@ -155,6 +249,7 @@ export const Entry = () => {
               <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
             </div>
           </section>
+
           {/* Checkboxes de actividades */}
           <section>
             <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
