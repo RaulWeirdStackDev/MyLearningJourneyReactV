@@ -58,6 +58,7 @@ export const Navbar = () => {
             Statistics
           </NavLink>
         </li>
+        <li>
           <NavLink 
             to="/faqs" 
             onClick={closeMenu}
@@ -67,6 +68,29 @@ export const Navbar = () => {
           >
             FAQs
           </NavLink>
+        </li>
+                <li>
+          <NavLink 
+            to="/register" 
+            onClick={closeMenu}
+            className={({ isActive }) => 
+              `transition-colors ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700 hover:text-blue-600'}`
+            }
+          >
+            Register
+          </NavLink>
+        </li>
+                <li>
+          <NavLink 
+            to="/login" 
+            onClick={closeMenu}
+            className={({ isActive }) => 
+              `transition-colors ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700 hover:text-blue-600'}`
+            }
+          >
+            Login
+          </NavLink>
+        </li>
         <li>
           <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">Profile</a>
         </li>
